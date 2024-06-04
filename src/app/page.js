@@ -1,113 +1,241 @@
-import Image from "next/image";
+'use client'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify'
+import AddDataBox from "@/components/AddDataBox";
+import EditDataBox from "@/components/EditDataBox";
+import DeleteDataBox from "@/components/DeleteDataBox";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+
+  //Hosted backend api 
+  const backEndurl = 'http://localhost:1000'
+
+  //local backend api
+  // const backEndurl = 'http://192.168.84.39:1000'
+
+  const [addDataBox, setAddDataBox] = useState(false)
+
+  const [editDataBox, setEditDataBox] = useState(false)
+  const [deleteDataBox, setDeleteDataBox] = useState(false)
+
+  const toggleAddDataBoxBtn = () => {
+    { addDataBox ? setAddDataBox(false) : setAddDataBox(true) }
+  }
+
+  const toggleEditDataBoxBtn = () => {
+    { editDataBox ? setEditDataBox(false) : setEditDataBox(true) }
+  }
+
+  const toggleDeleteDataBoxBtn = () => {
+    { deleteDataBox ? setDeleteDataBox(false) : setDeleteDataBox(true) }
+  }
+
+  //getting all Data in this state
+  const [allData, setAllData] = useState([])
+
+  const [addData, setAddData] = useState({
+    gno: "",
+    gtype: "",
+    gw: "",
+    tw: "",
+    nw: "",
+    tq: "",
+    aq: "",
+    rmks: ""
+  })
+
+  const handleInputs = (e) => {
+    const { name, value } = e.target;
+    setAddData((prevData) => ({
+      ...prevData,
+      [name]: name === 'gw' || name === 'tw' || name === 'nw' || name === 'tq' || name === 'aq' ? parseFloat(value) : value,
+    }));
+  };
+
+
+  // Fetch All Data
+  const getAllData = async (url) => {
+    const jwtToken = localStorage.getItem('token');
+    try {
+      const res = await fetch(url, {
+        // method: "GET",
+        headers: {
+          'Authorization': `jwt ${jwtToken}`
+        }
+      })
+      // const data = await res.json()
+      // { data && setAllData(data) }  // if there is data then setting in setAllData
+
+      console.log('res is : ', res)
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
+
+  // Fetching all Data when page refresh
+  useEffect(() => {
+    getAllData(`${backEndurl}/api/v1/wbs/fetchAll`)
+  }, [])
+
+
+  // Posting data Entry
+  const postData = async (e) => {
+    e.preventDefault()
+    const { gno, gtype, gw, tw, nw, tq, aq, rmks } = addData
+
+    // getting jwtToken 
+    const jwtToken = localStorage.getItem('token');
+
+    // posting data Res
+    const res = await fetch(`${backEndurl}/api/v1/wbs/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `jwt ${jwtToken}`
+      },
+      body: JSON.stringify({
+        gno, gtype, gw, tw, nw, tq, aq, rmks
+      })
+    })
+    const data = await res.json()
+    console.log(data)
+
+    if (data.success === true) {
+      console.log("toast is : ", data.message)
+      toast.success(data.message, {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      localStorage.setItem('token', jwtToken)
+      setAddData({
+        gno: "",
+        gtype: "",
+        gw: "",
+        tw: "",
+        nw: "",
+        tq: "",
+        aq: "",
+        rmks: ""
+      })
+      setAddDataBox(false)
+      // loginContext.login();
+    } else {
+      toast.error(data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <div className='w-full px-2 my-2 '>
+        {/* <p className="text-xs">Taken Delivery Data Entry Here.</p> */}
+        <div className="text-right">
+          <button className='MainBtnBlack rounded-md text-xs px-3 py-2' onClick={toggleAddDataBoxBtn}>ADD DATA</button>
         </div>
       </div>
+      <div className="relative shadow-md rounded-lg overflow-x-scroll max-h-[85vh] mx-2 scrollbar-corner-rounded-full scrollbar-thin scrollbar-thumb-gray-300  scrollbar-track-transparent ">
+        <table className="w-full text-xs sm:text-sm text-gray-500 border ">
+          <thead className="h-12 text-xs bg-black text-white uppercase border sticky -top-1">
+            <tr className='border'>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                Date
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40 ">
+                Item Name
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                Vehical No.
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                Product Weight (KG)
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                Price Per KG (₹)
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                Total Amount(₹)
+              </th>
+              <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-56">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border text-center hover:bg-gray-100">
+              <th scope="row" className="px-6 py-3 font-medium text-black whitespace-nowrap border">
+                13-4-24
+              </th>
+              <td className="px-6 py-3 border">
+                Potato
+              </td>
+              <td className="px-6 py-3 border uppercase">
+                GJ02AL9999
+              </td>
+              <td className="px-6 py-3 border">
+                99
+              </td>
+              <td className="px-6 py-3 border">
+                10
+              </td>
+              <td className="px-6 py-3 border">
+                990
+              </td>
+              <td className="px-6 py-3 border space-x-2">
+                <button className='MainBtnGreen text-xs rounded-md min-w-16'
+                  onClick={toggleEditDataBoxBtn}>EDIT</button>
+                <button className='MainBtnRed text-xs rounded-md min-w-16'
+                  onClick={toggleDeleteDataBoxBtn}>DELETE</button>
+              </td>
+            </tr>
+          </tbody>
+        </table >
+      </div >
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+
+      {/* Add Data Box  */}
+      {addDataBox &&
+        <AddDataBox
+          toggleAddDataBoxBtn={toggleAddDataBoxBtn}
+          AddDatagno={addData.gno}
+          AddDatagtype={addData.gtype}
+          AddDatagw={addData.gw}
+          AddDatatw={addData.tw}
+          AddDatanw={addData.nw}
+          AddDatatq={addData.tq}
+          AddDataaq={addData.aq}
+          AddDatarmks={addData.rmks}
+          handleInputs={handleInputs}
+          postData={postData}
         />
-      </div>
+      }
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      {editDataBox &&
+        <EditDataBox
+          toggleEditDataBoxBtn={toggleEditDataBoxBtn} />
+      }
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {deleteDataBox &&
+        <DeleteDataBox
+          toggleDeleteDataBoxBtn={toggleDeleteDataBoxBtn}
+        />
+      }
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <ToastContainer />
+    </>
   );
 }
