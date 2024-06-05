@@ -17,43 +17,43 @@ const AddDataBox = ({ toggleAddDataBoxBtn, AddDatagno, AddDatagtype, AddDatagw, 
                         </div>
                         <div className="space-y-3">
                             <div className="">
-                                <label htmlFor="gno" className="block mb-1 text-xs">gno</label>
-                                <input type="text" id="gno" name='gno' value={AddDatagno} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gno" className="block mb-1 text-xs">Gadi No</label>
+                                <input type="text" id="gno" name='gno' value={AddDatagno} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gadi No" required />
                             </div>
                             <div className="">
-                                <label htmlFor="gtype" className="block mb-1 text-xs">gtype</label>
-                                <input type="text" id="gtype" name='gtype' value={AddDatagtype} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gtype" className="block mb-1 text-xs">Gadi Type</label>
+                                <input type="text" id="gtype" name='gtype' value={AddDatagtype} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gadi Type" required />
                             </div>
                             <div className="">
-                                <label htmlFor="gw" className="block mb-1 text-xs">gw</label>
-                                <input type="number" id="gw" name='gw' value={AddDatagw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gw" className="block mb-1 text-xs">Gross Weight</label>
+                                <input type="number" id="gw" name='gw' value={AddDatagw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gross Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="tw" className="block mb-1 text-xs">tw</label>
-                                <input type="number" id="tw" name='tw' value={AddDatatw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="tw" className="block mb-1 text-xs">Tare Weight</label>
+                                <input type="number" id="tw" name='tw' value={AddDatatw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Tare Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="nw" className="block mb-1 text-xs">nw</label>
-                                <input type="number" id="nw" name='nw' value={AddDatanw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="nw" className="block mb-1 text-xs">Net Weight</label>
+                                <input type="number" id="nw" name='nw' value={AddDatanw} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Net Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="tq" className="block mb-1 text-xs">tq</label>
-                                <input type="number" id="tq" name='tq' value={AddDatatq} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="tq" className="block mb-1 text-xs">Total Quantity</label>
+                                <input type="number" id="tq" name='tq' value={AddDatatq} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Total Quantity" required />
                             </div>
                             <div className="">
-                                <label htmlFor="aq" className="block mb-1 text-xs">aq</label>
-                                <input type="number" id="aq" name='aq' value={AddDataaq} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="aq" className="block mb-1 text-xs">Actual Quantity</label>
+                                <input type="number" id="aq" name='aq' value={AddDataaq} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Actual Quantity" required />
                             </div>
                             <div className="">
-                                <label htmlFor="rmks" className="block mb-1 text-xs">rmks</label>
-                                <input type="text" id="rmks" name='rmks' value={AddDatarmks} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="rmks" className="block mb-1 text-xs">Remarks</label>
+                                <input type="text" id="rmks" name='rmks' value={AddDatarmks} onChange={handleInputs} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Remarks" required />
                             </div>
 
                         </div>
                         {/* button part */}
                         <div className="text-center flex space-x-2 py-3">
-                            <button type="submit" className="MainBtnBlack w-full py-2" onClick={postData}>ADD</button>
                             <button type="submit" className="MainBtnRed w-full py-2" onClick={toggleAddDataBoxBtn}>CANCLE</button>
+                            <button type="submit" className="MainBtnBlack w-full py-2" onClick={postData}>ADD</button>
                         </div>
                     </div>
                 </div>

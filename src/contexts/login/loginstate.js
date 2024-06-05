@@ -16,9 +16,6 @@ const LoginState = (props) => {
 
     const router = useRouter();
 
-    //show Profile section
-    const [showProfile, setShowProfile] = useState(false)
-
     // Set the active link state
     const [activeLink, setActiveLink] = useState('/');
 
@@ -30,36 +27,34 @@ const LoginState = (props) => {
 
 
     // fetching user Details when user login
-    const fetchUser = async (url) => {
-        try {
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'jwt-token': localStorage.getItem('token')
-                }
-            })
-            const data = await res.json()
-            setUserDetails({ name: data.name, email: data.email })
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const fetchUser = async (url) => {
+    //     try {
+    //         const res = await fetch(url, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'jwt-token': localStorage.getItem('token')
+    //             }
+    //         })
+    //         const data = await res.json()
+    //         setUserDetails({ name: data.name, email: data.email })
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchUser(`${backEndurl}/api/v1/users/getUsers`)
-    }, [])
+    // useEffect(() => {
+    //     fetchUser(`${backEndurl}/api/v1/users/getUsers`)
+    // }, [])
 
     const login = () => {
         setIsLoggedIn(true);
-        //fetching user Details when user login
-        fetchUser(`${backEndurl}/api/v1/users/getUsers`)
+        // fetchUser(`${backEndurl}/api/v1/users/getUsers`)
     };
 
     const logout = () => {
         localStorage.removeItem('token');
+        router.push('/login')
         setIsLoggedIn(false);
-        router.push('/login');
-        setShowProfile(false)
     };
 
     useEffect(() => {
@@ -70,7 +65,7 @@ const LoginState = (props) => {
     }, []);
 
     return (
-        <LoginContext.Provider value={{ isLoggedIn, login, logout, setShowProfile, showProfile, setUserDetails, userDetails, activeLink, setActiveLink }}>
+        <LoginContext.Provider value={{ isLoggedIn, login, logout, setUserDetails, userDetails, activeLink, setActiveLink }}>
             {props.children}
         </LoginContext.Provider>
     );

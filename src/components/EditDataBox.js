@@ -1,11 +1,10 @@
 import React from 'react'
 
-const EditDataBox = ({ toggleEditDataBoxBtn }) => {
+const EditDataBox = ({ toggleEditDataBoxBtn, editedDatagno, editedDatagtype, editedDatagw, editedDatatw, editedDatanw, editedDatatq, editedDataaq, editedDatarmks, handleInputChange, saveEditChanges }) => {
     return (
         <>
-            <div className="fixed top-0 left-0 h-screen w-screen m-auto z-20">
+            <div div className="fixed top-0 left-0 h-screen w-screen m-auto z-20" >
                 <div className="backdrop-blur h-screen flex  flex-col justify-center items-center ">
-
                     <div className="px-5 bg-white text-black max-h-[85vh] w-[90vw] sm:w-[50vw] overflow-y-scroll scrollbar-corner-rounded-full scrollbar-thin scrollbar-thumb-gray-300  scrollbar-track-transparent m-auto rounded-lg border shadow-md ">
                         <div className="w-full mb-2 flex justify-between items-center py-3">
                             <p className="text-xl font-serif text-center w-full">EDIT DATA</p>
@@ -15,39 +14,43 @@ const EditDataBox = ({ toggleEditDataBoxBtn }) => {
                         </div>
                         <div className="space-y-3">
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gno" className="block mb-1 text-xs">Gadi No</label>
+                                <input type="text" id="gno" name='gno' value={editedDatagno} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gadi No" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gtype" className="block mb-1 text-xs">Gadi Type</label>
+                                <input type="text" id="gtype" name='gtype' value={editedDatagtype} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gadi Type" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="gw" className="block mb-1 text-xs">Gross Weight</label>
+                                <input type="number" id="gw" name='gw' value={editedDatagw} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Gross Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="tw" className="block mb-1 text-xs">Tare Weight</label>
+                                <input type="number" id="tw" name='tw' value={editedDatatw} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Tare Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="nw" className="block mb-1 text-xs">Net Weight</label>
+                                <input type="number" id="nw" name='nw' value={editedDatanw} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Net Weight" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="tq" className="block mb-1 text-xs">Total Quantity</label>
+                                <input type="number" id="tq" name='tq' value={editedDatatq} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Total Quantity" required />
                             </div>
                             <div className="">
-                                <label htmlFor="first_name" className="block mb-1 text-xs">First name</label>
-                                <input type="text" id="first_name" className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="John" required />
+                                <label htmlFor="aq" className="block mb-1 text-xs">Actual Quantity</label>
+                                <input type="number" id="aq" name='aq' value={editedDataaq} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Actual Quantity" required />
+                            </div>
+                            <div className="">
+                                <label htmlFor="rmks" className="block mb-1 text-xs">Remarks</label>
+                                <input type="text" id="rmks" name='rmks' value={editedDatarmks} onChange={handleInputChange} className="bg-transparent border  text-gray-900 text-sm w-full p-2 focus:border-blue-500 outline-none " placeholder="Enter Remarks" required />
                             </div>
 
                         </div>
                         {/* button part */}
                         <div className="text-center flex space-x-2 py-3">
-                            <button type="submit" className="MainBtnBlack w-full py-2">EDIT</button>
                             <button type="submit" className="MainBtnRed w-full py-2" onClick={toggleEditDataBoxBtn}>CANCLE</button>
+                            <button type="submit" className="MainBtnBlack w-full py-2" onClick={saveEditChanges}>EDIT</button>
                         </div>
                     </div>
                 </div>

@@ -15,10 +15,10 @@ const Page = () => {
     const loadingcontext = useContext(LoadingContext)
 
     //Hosted backend api 
-    const backEndurl = 'http://localhost:1000'
+    // const backEndurl = 'http://localhost:1000'
 
     //local backend api
-    // const backEndurl = 'http://192.168.84.39:1000'
+    const backEndurl = 'http://192.168.43.120:1000'
 
     const router = useRouter()
 
@@ -62,7 +62,7 @@ const Page = () => {
         e.preventDefault()
         const { un, pwd } = user
 
-        // loadingcontext.setIsLoading(true);
+        loadingcontext.setIsLoading(true);
 
         const res = await fetch(`${backEndurl}/api/v1/auth/admin`, {
             method: 'POST',
@@ -74,7 +74,7 @@ const Page = () => {
             })
         });
         const data = await res.json()
-        // loadingcontext.setIsLoading(false);
+        loadingcontext.setIsLoading(false);
         if (data.success === true) {
             toast.success(data.message, {
                 position: "top-right",

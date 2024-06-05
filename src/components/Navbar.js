@@ -1,9 +1,12 @@
 'use client'
 import React, { useContext, useState } from 'react'
 import Link from 'next/link'
+import LoginContext from '@/contexts/login/logincontext'
 
 
 const Navbar = () => {
+
+    const loginContext = useContext(LoginContext)
 
     const [showNavbar, setShowNavbar] = useState(false)
 
@@ -36,24 +39,37 @@ const Navbar = () => {
                                     </button>
                                 </Link>
                             </li>
-                            <li>
-                                <Link href={'/givenDelivery'}>
-                                    <button className={`w-[100%] py-1 mb-2 px-3 text-left text-sm flex hover:text-white`}
-                                    >
-                                        <span className='ml-4'>Given Delivery</span>
-                                    </button>
-                                </Link>
-                            </li>
-                            <div className='px-4'>
-                                <li>
-                                    <Link href={'/login'}>
-                                        <button className={`MainBtnWhite w-full mt-1`}
-                                        >
-                                            Login
-                                        </button>
-                                    </Link>
-                                </li>
-                            </div>
+                            {/* If user is not logged in then show this */}
+                            {!loginContext.isLoggedIn ?
+                                <div className='px-4'>
+                                    <li>
+                                        <Link href={'/login'}>
+                                            <button className={`MainBtnWhite w-full mt-1`}>
+                                                Login
+                                            </button>
+                                        </Link>
+                                    </li>
+                                </div> :
+                                // If user is logged in then show this
+                                <>
+                                    <li>
+                                        <Link href={'/givenDelivery'}>
+                                            <button className={`w-[100%] py-1 mb-2 px-3 text-left text-sm flex hover:text-white`}
+                                            >
+                                                <span className='ml-4'>Given Delivery</span>
+                                            </button>
+                                        </Link>
+                                    </li>
+                                    <div className='px-4'>
+                                        <li>
+                                            <button className={`MainBtnWhite w-full mt-1`}
+                                                onClick={() => { loginContext.logout() }}>
+                                                Logout
+                                            </button>
+                                        </li>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
                 </div>

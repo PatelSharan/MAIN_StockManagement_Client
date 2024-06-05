@@ -1,6 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const DeleteDataBox = ({ toggleDeleteDataBoxBtn }) => {
+const DeleteDataBox = ({ toggleDeleteDataBoxBtn, saveDeleteChanges, deletedData }) => {
+
+
+    // pushing a deleteData object in array to use map method on it
+    const arrDeletedData = []
+    arrDeletedData.push(deletedData)
+
     return (
         <>
             <div className="fixed top-0 left-0 h-screen w-screen m-auto z-20">
@@ -18,62 +24,84 @@ const DeleteDataBox = ({ toggleDeleteDataBoxBtn }) => {
 
                         {/* Delete Row */}
                         <div className="relative shadow-md rounded-lg overflow-x-scroll max-h-[85vh]  scrollbar-corner-rounded-full scrollbar-thin scrollbar-thumb-gray-300  scrollbar-track-transparent ">
-                            <table className="w-full text-xs sm:text-sm text-gray-500 border ">
-                                <thead className="h-12 text-xs bg-black text-white uppercase border sticky -top-1">
-                                    <tr className='border'>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
-                                            Date
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40 ">
-                                            Item Name
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
-                                            Vehical No.
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
-                                            Product Weight (KG)
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
-                                            Price Per KG (₹)
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
-                                            Total Amount(₹)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="border text-center hover:bg-gray-100">
-                                        <th scope="row" className="px-6 py-3 font-medium text-black whitespace-nowrap border">
-                                            13-4-24
-                                        </th>
-                                        <td className="px-6 py-3 border">
-                                            Potato
-                                        </td>
-                                        <td className="px-6 py-3 border uppercase">
-                                            GJ02AL9999
-                                        </td>
-                                        <td className="px-6 py-3 border">
-                                            99
-                                        </td>
-                                        <td className="px-6 py-3 border">
-                                            10
-                                        </td>
-                                        <td className="px-6 py-3 border">
-                                            990
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table >
+                            {Array.isArray(arrDeletedData) && (
+                                <table className="w-full text-xs sm:text-sm text-gray-500 border ">
+                                    <thead className="h-12 text-xs bg-black text-white uppercase border sticky -top-1">
+                                        <tr className='border'>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Date
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40 ">
+                                                Gadi No.
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Gadi Type
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Gross Weight
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Tare Weight
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Net Weight
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Total Quantity
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Actual Quantity
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
+                                                Remarks
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {arrDeletedData.map((dataItem) => (
+                                            <tr key={dataItem.id} className="border text-center hover:bg-gray-100">
+                                                <th scope="row" className="px-6 py-3 font-medium text-black whitespace-nowrap border">
+                                                    {dataItem.createdAt}
+                                                </th>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.gno}
+                                                </td>
+                                                <td className="px-6 py-3 border uppercase">
+                                                    {dataItem.gtype}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.gw}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.tw}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.nw}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.tq}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.aq}
+                                                </td>
+                                                <td className="px-6 py-3 border">
+                                                    {dataItem.rmks}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table >)}
                         </div >
 
                         {/* button part */}
                         <div className="text-center flex space-x-2 py-3">
-                            <button type="submit" className="MainBtnBlack w-full py-2">DELETE</button>
                             <button type="submit" className="MainBtnRed w-full py-2" onClick={toggleDeleteDataBoxBtn}>CANCLE</button>
+                            <button type="submit" className="MainBtnBlack w-full py-2" onClick={saveDeleteChanges}> DELETE</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
+
         </>
     )
 }
