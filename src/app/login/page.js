@@ -15,10 +15,10 @@ const Page = () => {
     const loadingcontext = useContext(LoadingContext)
 
     //Hosted backend api 
-    // const backEndurl = 'http://localhost:1000'
+    const backEndurl = 'http://localhost:1000'
 
     //local backend api
-    const backEndurl = 'http://192.168.43.120:1000'
+    // const backEndurl = 'http://192.168.43.120:1000'
 
     const router = useRouter()
 

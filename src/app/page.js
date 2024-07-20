@@ -16,10 +16,10 @@ export default function Home() {
   const loginContext = useContext(LoginContext)
 
   //Hosted backend api 
-  // const backEndurl = 'http://localhost:1000'
+  const backEndurl = 'http://localhost:1000'
 
   //local backend api
-  const backEndurl = 'http://192.168.43.120:1000'
+  // const backEndurl = 'http://192.168.43.120:1000'
 
   const [addDataBox, setAddDataBox] = useState(false)
   const [editDataBox, setEditDataBox] = useState(false)
@@ -241,35 +241,8 @@ export default function Home() {
     const jwtToken = localStorage.getItem('token');
 
     // posting data Res
-    const res = await fetch(`${backEndurl}/api/v1/wbs/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `jwt ${jwtToken}`
-      },
-      body: JSON.stringify({
-        gno, gtype, gw, tw, nw, tq, aq, rmks
-      })
-    })
-    const data = await res.json()
-    getAllData() // calling getAllData Function After Data Added
-    if (data.success === true) {
-      toast.success(data.message, {
-        position: "top-right",
-        autoClose: 500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-      localStorage.setItem('token', jwtToken)
-      setAddData({ gno: "", gtype: "", gw: "", tw: "", nw: "", tq: "", aq: "", rmks: "" })
-      setAddDataBox(false)
-      // loginContext.login();
-    } else {
-      toast.error(data.message, {
+    if (gno == "" || gtype == "" || gw == "" || tw == "" || nw == "" || tq == "" || aq == "" || rmks == "") {
+      toast.error("Please Fill Details Properly!", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -279,7 +252,50 @@ export default function Home() {
         progress: undefined,
         theme: "light",
       });
+      getAllData() // calling getAllData Function After Data Added
     }
+    else {
+      const res = await fetch(`${backEndurl}/api/v1/wbs/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `jwt ${jwtToken}`
+        },
+        body: JSON.stringify({
+          gno, gtype, gw, tw, nw, tq, aq, rmks
+        })
+      })
+      const data = await res.json()
+      getAllData() // calling getAllData Function After Data Added
+      if (data.success === true) {
+        toast.success(data.message, {
+          position: "top-right",
+          autoClose: 500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+        localStorage.setItem('token', jwtToken)
+        setAddData({ gno: "", gtype: "", gw: "", tw: "", nw: "", tq: "", aq: "", rmks: "" })
+        setAddDataBox(false)
+        // loginContext.login();
+      } else {
+        toast.error(data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+
   }
 
   return (
@@ -304,7 +320,7 @@ export default function Home() {
                         Date
                       </th>
                       <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40 ">
-                        Gadi No.
+                        Gadi No
                       </th>
                       <th scope="col" className="px-6 py-3 border sm:min-w-56 min-w-40">
                         Gadi Type
@@ -450,3 +466,63 @@ export default function Home() {
   );
 
 }
+
+
+
+
+
+
+
+// // Posting data Entry
+// const postData = async (e) => {
+//   loadingContext.setIsLoading(true)
+//   e.preventDefault()
+//   let { gno, gtype, gw, tw, nw, tq, aq, rmks } = addData
+
+//   // converting gno into captital letter
+//   gno = gno.toUpperCase()
+//   rmks = rmks.toUpperCase()
+//   // getting jwtToken
+//   const jwtToken = localStorage.getItem('token');
+
+//   // posting data Res
+//   const res = await fetch(`${backEndurl}/api/v1/wbs/add`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       'Authorization': `jwt ${jwtToken}`
+//     },
+//     body: JSON.stringify({
+//       gno, gtype, gw, tw, nw, tq, aq, rmks
+//     })
+//   })
+//   const data = await res.json()
+//   getAllData() // calling getAllData Function After Data Added
+//   if (data.success === true) {
+//     toast.success(data.message, {
+//       position: "top-right",
+//       autoClose: 500,
+//       hideProgressBar: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       theme: "light"
+//     });
+//     localStorage.setItem('token', jwtToken)
+//     setAddData({ gno: "", gtype: "", gw: "", tw: "", nw: "", tq: "", aq: "", rmks: "" })
+//     setAddDataBox(false)
+//     // loginContext.login();
+//   } else {
+//     toast.error(data.message, {
+//       position: "top-right",
+//       autoClose: 2000,
+//       hideProgressBar: false,
+//       closeOnClick: true,
+//       pauseOnHover: true,
+//       draggable: true,
+//       progress: undefined,
+//       theme: "light",
+//     });
+//   }
+// }

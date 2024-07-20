@@ -35,7 +35,7 @@ const Navbar = () => {
                                 <Link href={'/'}>
                                     <button className={`w-[100%] py-1 mb-2 px-3 text-left text-sm flex hover:text-white `}
                                     >
-                                        <span className='ml-4'>Taken Delivery</span>
+                                        <span className='ml-4'>Vehical Entry</span>
                                     </button>
                                 </Link>
                             </li>
@@ -53,10 +53,10 @@ const Navbar = () => {
                                 // If user is logged in then show this
                                 <>
                                     <li>
-                                        <Link href={'/givenDelivery'}>
+                                        <Link href={'/entry'}>
                                             <button className={`w-[100%] py-1 mb-2 px-3 text-left text-sm flex hover:text-white`}
                                             >
-                                                <span className='ml-4'>Given Delivery</span>
+                                                <span className='ml-4'>Entry</span>
                                             </button>
                                         </Link>
                                     </li>
